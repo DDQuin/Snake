@@ -149,15 +149,18 @@ public class SnakeGameGUI extends JFrame {
         }
 
         private void drawCheckerBoard(Graphics g, Color color1, Color color2) {
-            boolean alterColor = false;
-            Color currentColor;
-            for (int y = OFFSET_Y; y < game.getHeight() * SF; y+= SF) {
-                for (int x = OFFSET_X; x < game.getWidth() * SF; x+= SF) {
-                    if (!alterColor) currentColor = color1;
-                    else currentColor = color2;
+            Color currentColor = color1;
+            for (int y = 0; y < game.getHeight(); y++) {
+                int newY = (y * SF) + OFFSET_Y;
+                for (int x = 0; x < game.getWidth(); x++) {
+                    int newX = (x * SF) + OFFSET_X;
                     g.setColor(currentColor);
-                    g.fillRect(x, y, SF, SF);
-                    alterColor = !alterColor;
+                    g.fillRect(newX, newY, SF, SF);
+                    System.out.println(x);
+                    //alternate between colors but if even number of width then don't alternate at last column of each row
+                    if (!(game.getWidth() % 2 == 0 && x == game.getWidth() - 1)) {
+                        currentColor = (currentColor == color1 ? color2 : color1);
+                    }
                 }
             }
         }
